@@ -1,6 +1,6 @@
 ﻿using be.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace be.Controllers.LoginController;
 
@@ -21,20 +21,20 @@ public class LoginController : ControllerBase
     {
         var res = new Auth();
 
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=PPSGUARD;Integrated Security=True;";
+        string connectionString = "server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
         var base64EncodedBytes = Convert.FromBase64String(input.Password);
         var pass64 = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         string query = "SELECT * FROM Employee where EmployeeFirstname = @Username and EmployeeCard = @Password and isActive = 1";
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            SqlCommand command = new SqlCommand(query, connection);
+            MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@Username", input.Username);
             command.Parameters.AddWithValue("@Password", pass64);
             try
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 if (reader != null && reader.HasRows)
                 {
                     while (reader.Read())

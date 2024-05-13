@@ -1,6 +1,6 @@
 using be.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace be.Controllers.CompanyController;
 
@@ -16,7 +16,7 @@ public class CompanyTypeListController : ControllerBase
     [HttpGet(Name = "GetCompanyTypeList/{empType}/{comType}")]
     public List<CompanyType> Get(string empType, string comType)
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=PPSGUARD;Integrated Security=True;";
+        string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
         string query = "SELECT * FROM CompanyType where CompanyTypeID = @ComType and isActive = 1";
 
         var res = new List<CompanyType>();
@@ -29,13 +29,13 @@ public class CompanyTypeListController : ControllerBase
         {
             query = query.Replace("@ComType", comType);
         }
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            SqlCommand command = new SqlCommand(query, connection);
+            MySqlCommand command = new MySqlCommand(query, connection);
             try
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     var data = new CompanyType();

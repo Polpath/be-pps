@@ -1,6 +1,6 @@
 using be.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace be.Controllers.CompanyController;
 
@@ -17,18 +17,18 @@ public class CompanyDetailController : ControllerBase
     public CompanyDetail Get(string companyID)
     {
         string query = "select c.CompanyName, ct.CompanyTypeID, ct.CompanyTypeName from Company c LEFT JOIN CompanyType ct on c.CompanyTypeID = ct.CompanyTypeID where CompanyID = '@ID' and c.isActive = 1";
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=PPSGUARD;Integrated Security=True;";
+        string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
 
         var res = new CompanyDetail();
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             query = query.Replace("@ID", companyID);
-            SqlCommand command = new SqlCommand(query, connection);
+            MySqlCommand command = new MySqlCommand(query, connection);
             try
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
                     res.CompanyName = (string)reader["CompanyName"];

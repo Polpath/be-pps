@@ -1,6 +1,6 @@
 ﻿using be.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace be.Controllers.SpotCheckController;
 
@@ -17,16 +17,16 @@ public class saveSpotCheckController : ControllerBase
     public bool Post(SpotCheck input)
     {
         string query = "INSERT INTO [dbo].[SpotCheck]([SpotID] ,[EmployeeID] ,[CheckPointID] ,[SpotCheckDate] ,[SpotCheckImg]) VALUES ('@ID' ,'@EmpID' ,'@CheckID' , Convert(DATETIME, '@Date', 105), '@Img')";
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=PPSGUARD;Integrated Security=True;";
+        string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
 
-            SqlCommand commandGetMaxID = new SqlCommand("SELECT CAST(MAX(SpotID) + 1 AS VARCHAR) AS ID FROM [dbo].[SpotCheck]", connection);
+            MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(SpotID) + 1 AS VARCHAR) AS ID FROM [dbo].[SpotCheck]", connection);
             try
             {
                 connection.Open();
-                SqlDataReader reader = commandGetMaxID.ExecuteReader();
+                MySqlDataReader reader = commandGetMaxID.ExecuteReader();
 
                 if (reader.Read())
                 {
@@ -45,10 +45,10 @@ public class saveSpotCheckController : ControllerBase
             query = query.Replace("@CheckID", input.CheckPointID).Trim();
             query = query.Replace("@Img", input.SpotCheckImg);
             query = query.Replace("@Date", input.SpotCheckDate?.ToString());
-            SqlCommand command = new SqlCommand(query, connection);
+            MySqlCommand command = new MySqlCommand(query, connection);
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 return true;
             }
             catch (Exception ex)

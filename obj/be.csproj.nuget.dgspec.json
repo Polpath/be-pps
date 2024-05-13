@@ -61,6 +61,10 @@
               "target": "Package",
               "version": "[1.17.2, )"
             },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.4.0, )"
+            },
             "OfficeOpenXml.Core.ExcelPackage": {
               "target": "Package",
               "version": "[1.0.0, )"

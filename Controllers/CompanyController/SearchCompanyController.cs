@@ -1,6 +1,6 @@
 using be.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace be.Controllers.CompanyController;
 
@@ -20,7 +20,7 @@ public class SearchCompanyController : ControllerBase
     public List<Company> Get(string? companyID, string? companyType)
     {
         string query = "SELECT * FROM Company where isActive = 1 @param";
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=PPSGUARD;Integrated Security=True;";
+        string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
 
         var res = new List<Company>();
 
@@ -44,13 +44,13 @@ public class SearchCompanyController : ControllerBase
         CompanyTypeListController comTypeService = new CompanyTypeListController();
         var comTypeData = comTypeService.Get("3", "1");
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            SqlCommand command = new SqlCommand(query, connection);
+            MySqlCommand command = new MySqlCommand(query, connection);
             try
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     var data = new Company();

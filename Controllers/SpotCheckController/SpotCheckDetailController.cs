@@ -1,6 +1,6 @@
 ﻿using be.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace be.Controllers.SpotCheckController
 {
@@ -22,20 +22,20 @@ namespace be.Controllers.SpotCheckController
             var res = new SpotCheck();
 
             string query = "select * from [dbo].[SpotCheck]";
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=PPSGUARD;Integrated Security=True;";
+            string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
 
             if (spotID != null)
             {
                 query = query + " where SpotID = '" + spotID + "'";
             }
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
+                MySqlCommand command = new MySqlCommand(query, connection);
                 try
                 {
                     connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     if (reader.Read())
                     {
                         res.SpotCheckID = (string)reader["SpotID"].ToString().Trim();

@@ -1,6 +1,6 @@
 using be.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace be.Controllers.EmployeeController;
 
@@ -16,7 +16,7 @@ public class EmployeeTypeListController : ControllerBase
     [HttpGet(Name = "GetEmployeeTypeList/{empType}")]
     public List<EmployeeType> Get(string empType)
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=PPSGUARD;Integrated Security=True;";
+        string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
         string query = "SELECT * FROM EmployeeType where EmpTypeID = @empType and isActive = 1";
 
         var res = new List<EmployeeType>();
@@ -29,13 +29,13 @@ public class EmployeeTypeListController : ControllerBase
         {
             query = query.Replace("@empType", empType);
         }
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            SqlCommand command = new SqlCommand(query, connection);
+            MySqlCommand command = new MySqlCommand(query, connection);
             try
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     var data = new EmployeeType();

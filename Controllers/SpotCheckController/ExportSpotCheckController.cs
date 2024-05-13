@@ -1,7 +1,7 @@
 ﻿using be.Controllers.CompanyController;
 using be.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using OfficeOpenXml;
 
 namespace be.Controllers.SpotCheckController;
@@ -19,19 +19,19 @@ public class ExportSpotCheckController : ControllerBase
     public IActionResult ExportToExcel(string spotID)
     {
         string query = @"select * from SpotCheck s left join Employee e on s.EmployeeID = e.EmployeeID left join [CheckPoint] c on s.CheckPointID = c.CheckPointID left join Company com on e.CompanyID = com.CompanyID where SpotID in (@ID)";
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=PPSGUARD;Integrated Security=True;";
+        string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
         string id = "";
 
         var result = new List<ExportSpot>();
 
         query = query.Replace("@ID", spotID);
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            SqlCommand command = new SqlCommand(query, connection);
+            MySqlCommand command = new MySqlCommand(query, connection);
             try
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     var data = new ExportSpot();
