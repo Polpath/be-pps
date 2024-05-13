@@ -17,7 +17,7 @@ public class SpotListController : ControllerBase
     [HttpGet(Name = "GetSpotCheckList/{comID}/{spotForm}/{spotTo}")]
     public List<SpotCheck> Get(string? comID, string spotForm, string spotTo)
     {
-        string query = "select * from SpotCheck s LEFT JOIN [CheckPoint] c on s.CheckPointID = c.CheckPointID where CAST(FORMAT(s.SpotCheckDate, 'yyyy-MM-dd') as DATE) >= '@Form' and CAST(FORMAT(s.SpotCheckDate, 'yyyy-MM-dd') as DATE) <= '@TO' @ComID";
+        string query = "select * from SpotCheck s LEFT JOIN CheckPoint c on s.CheckPointID = c.CheckPointID where CAST(DATE_FORMAT(s.SpotCheckDate, '%Y-%m-%d') as DATE) >= '@Form' and CAST(DATE_FORMAT(s.SpotCheckDate, '%Y-%m-%d') as DATE) <= '@TO' @ComID";
         string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
 
         var res = new List<SpotCheck>();
@@ -54,6 +54,7 @@ public class SpotListController : ControllerBase
                     res.Add(data);
                 }
                 reader.Close();
+                connection.Close();
                 return res;
             }
             catch (Exception ex)

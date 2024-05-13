@@ -21,13 +21,13 @@ public class saveOrUpdateEmployeeController : ControllerBase
     {
         string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
         string queryInsert = @"INSERT INTO Employee (EmployeeID ,EmployeeFirstname ,EmployeeLastname ,EmployeeCard ,EmpTypeID ,CompanyID ,isActive ,UpdatedBy ,UpdatedDate) 
-                                VALUES ('@ID', '@First', '@Last', '@Card', '@Type', '@Com', 1, 'admin', GETDATE())";
+                                VALUES ('@ID', '@First', '@Last', '@Card', '@Type', '@Com', 1, 'admin', NOW())";
         string queryUpdate = "UPDATE Employee SET EmployeeFirstname = '@First', EmployeeLastname = '@Last', EmployeeCard = '@Card', EmpTypeID = '@Type', CompanyID = '@Com', isActive = @Active WHERE EmployeeID = '@ID'";
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             if (input.EmployeeID == "0")
             {
-                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(EmployeeID) + 1 AS VARCHAR) AS ID FROM Employee", connection);
+                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(EmployeeID) + 1 AS CHAR) AS ID FROM Employee", connection);
                 try
                 {
                     connection.Open();

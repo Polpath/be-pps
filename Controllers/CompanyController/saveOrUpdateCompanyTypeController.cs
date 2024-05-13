@@ -20,13 +20,13 @@ public class saveOrUpdateCompanyTypeController : ControllerBase
     public bool Post(CompanyType input)
     {
         string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
-        string queryInsert = "INSERT INTO CompanyType (CompanyTypeID, CompanyTypeName , isActive, UpdatedBy ,UpdatedDate) VALUES ('@ID', '@Name', 1, 'admin', GETDATE())";
-        string queryUpdate = "UPDATE CompanyType SET CompanyTypeName = '@Name', isActive = @Active, UpdatedDate = GETDATE() WHERE CompanyTypeID = '@ID'";
+        string queryInsert = "INSERT INTO CompanyType (CompanyTypeID, CompanyTypeName , isActive, UpdatedBy ,UpdatedDate) VALUES ('@ID', '@Name', 1, 'admin', NOW())";
+        string queryUpdate = "UPDATE CompanyType SET CompanyTypeName = '@Name', isActive = @Active, UpdatedDate = NOW() WHERE CompanyTypeID = '@ID'";
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             if (input.CompanyTypeID == "0")
             {
-                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CompanyTypeID) + 1 AS VARCHAR) AS ID FROM CompanyType", connection);
+                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CompanyTypeID) + 1 AS CHAR) AS ID FROM CompanyType", connection);
                 try
                 {
                     connection.Open();
@@ -71,6 +71,7 @@ public class saveOrUpdateCompanyTypeController : ControllerBase
                     connection.Open();
                     MySqlDataReader reader = command.ExecuteReader();
                     reader.Close();
+                    connection.Close();
                     return true;
                 }
                 catch (Exception ex)

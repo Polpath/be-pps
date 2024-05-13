@@ -20,13 +20,13 @@ public class saveOrUpdateEmployeeTypeController : ControllerBase
     public bool Post(EmployeeType input)
     {
         string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
-        string queryInsert = "INSERT INTO EmployeeType (EmpTypeID, EmpTypeName , isActive, UpdatedBy ,UpdatedDate) VALUES ('@ID', '@Name', 1, 'admin', GETDATE())";
-        string queryUpdate = "UPDATE EmployeeType SET EmpTypeName = '@Name', isActive = @Active, UpdatedDate = GETDATE() WHERE EmpTypeID = '@ID'";
+        string queryInsert = "INSERT INTO EmployeeType (EmpTypeID, EmpTypeName , isActive, UpdatedBy ,UpdatedDate) VALUES ('@ID', '@Name', 1, 'admin', NOW())";
+        string queryUpdate = "UPDATE EmployeeType SET EmpTypeName = '@Name', isActive = @Active, UpdatedDate = NOW() WHERE EmpTypeID = '@ID'";
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             if (input.EmployeeTypeID == "0")
             {
-                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(EmpTypeID) + 1 AS VARCHAR) AS ID FROM EmployeeType", connection);
+                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(EmpTypeID) + 1 AS CHAR) AS ID FROM EmployeeType", connection);
                 try
                 {
                     connection.Open();

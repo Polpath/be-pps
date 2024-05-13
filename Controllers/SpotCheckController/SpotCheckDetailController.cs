@@ -21,7 +21,7 @@ namespace be.Controllers.SpotCheckController
         {
             var res = new SpotCheck();
 
-            string query = "select * from [dbo].[SpotCheck]";
+            string query = "select * from SpotCheck";
             string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
 
             if (spotID != null)
@@ -44,7 +44,7 @@ namespace be.Controllers.SpotCheckController
 
                         string input = ((DateTime)reader["SpotCheckDate"]).ToString();
                         DateTime dateTime = DateTime.Parse(input);
-                        res.SpotCheckDate = dateTime.ToString("dd-MM-yyyy HH:mm:ss");
+                        res.SpotCheckDate = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
 
                         res.SpotCheckImg = (string)reader["SpotCheckImg"];
                     }

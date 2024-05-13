@@ -1,6 +1,9 @@
 ﻿using be.Model;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using System;
+using System.Data;
+using System.Xml;
 
 namespace be.Controllers.SpotCheckController;
 
@@ -16,13 +19,13 @@ public class saveSpotCheckController : ControllerBase
     [HttpPost(Name = "saveSpotCheck")]
     public bool Post(SpotCheck input)
     {
-        string query = "INSERT INTO [dbo].[SpotCheck]([SpotID] ,[EmployeeID] ,[CheckPointID] ,[SpotCheckDate] ,[SpotCheckImg]) VALUES ('@ID' ,'@EmpID' ,'@CheckID' , Convert(DATETIME, '@Date', 105), '@Img')";
+        string query = "INSERT INTO SpotCheck (SpotID ,EmployeeID ,CheckPointID ,SpotCheckDate ,SpotCheckImg) VALUES ('@ID' ,'@EmpID' ,'@CheckID' , STR_TO_DATE('@Date','%Y-%m-%dT%H:%i:%s.%f'), '@Img')";
         string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
 
-            MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(SpotID) + 1 AS VARCHAR) AS ID FROM [dbo].[SpotCheck]", connection);
+            MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(SpotID) + 1 AS CHAR) AS ID FROM SpotCheck", connection);
             try
             {
                 connection.Open();
@@ -30,7 +33,7 @@ public class saveSpotCheckController : ControllerBase
 
                 if (reader.Read())
                 {
-                    input.SpotCheckID = (string)reader["ID"];
+                    input.SpotCheckID = (reader["ID"] == DBNull.Value) ? "1" : (string)reader["ID"];
                     reader.Close();
                 }
             }
@@ -49,6 +52,7 @@ public class saveSpotCheckController : ControllerBase
             try
             {
                 MySqlDataReader reader = command.ExecuteReader();
+                connection.Close();
                 return true;
             }
             catch (Exception ex)

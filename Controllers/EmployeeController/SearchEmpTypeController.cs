@@ -45,7 +45,7 @@ public class SearchEmpTypeController : ControllerBase
                     var data = new EmployeeType();
                     data.EmployeeTypeID = (string)reader["EmpTypeID"];
                     data.EmployeeTypeName = (string)reader["EmpTypeName"];
-                    data.isActive = (bool)reader["isActive"];
+                    data.isActive = ((ulong)reader["isActive"] == 1) ? true : false;
                     data.UpdatedBy = (string)reader["UpdatedBy"];
                     data.UpdatedDate = (DateTime)reader["UpdatedDate"];
                     res.Add(data);

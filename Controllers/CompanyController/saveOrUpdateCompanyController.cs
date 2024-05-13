@@ -20,13 +20,13 @@ public class saveOrUpdateCompanyController : ControllerBase
     public bool Post(Company input)
     {
         string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
-        string queryInsert = "INSERT INTO Company (CompanyID, CompanyName ,CompanyTypeID , isActive, UpdatedBy ,UpdatedDate) VALUES ('@ID', '@Name', '@TypeID', 1, 'admin', GETDATE())";
-        string queryUpdate = "UPDATE Company SET CompanyName = '@Name', CompanyTypeID = '@TypeID', isActive = @Active, UpdatedDate = GETDATE() WHERE CompanyID = '@ID'";
+        string queryInsert = "INSERT INTO Company (CompanyID, CompanyName ,CompanyTypeID , isActive, UpdatedBy ,UpdatedDate) VALUES ('@ID', '@Name', '@TypeID', 1, 'admin', NOW())";
+        string queryUpdate = "UPDATE Company SET CompanyName = '@Name', CompanyTypeID = '@TypeID', isActive = @Active, UpdatedDate = NOW() WHERE CompanyID = '@ID'";
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             if (input.CompanyID == "0")
             {
-                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CompanyID) + 1 AS VARCHAR) AS ID FROM Company", connection);
+                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CompanyID) + 1 AS CHAR) AS ID FROM Company", connection);
                 try
                 {
                     connection.Open();

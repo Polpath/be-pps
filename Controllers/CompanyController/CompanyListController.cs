@@ -46,6 +46,7 @@ public class CompanyListController : ControllerBase
                     res.Add(data);
                 }
                 reader.Close();
+                connection.Close();
                 return res;
             }
             catch (Exception ex)

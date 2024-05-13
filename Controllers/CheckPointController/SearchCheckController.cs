@@ -22,7 +22,7 @@ namespace be.Controllers.CheckPointController
         {
             var res = new List<CheckPoint>();
 
-            string query = "select * from [dbo].[CheckPoint] where isActive = 1";
+            string query = "select * from CheckPoint where isActive = 1";
             string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
 
             if (checkName != null)
@@ -51,12 +51,13 @@ namespace be.Controllers.CheckPointController
                         data.CheckPointName = (string)reader["CheckPointName"];
                         data.CheckPointDesc = (string)reader["CheckPointDesc"];
                         data.CompanyID = comData.FirstOrDefault(src => src.CompanyID == (string)reader["CompanyID"])?.CompanyName;
-                        data.isActive = (bool)reader["isActive"];
+                        data.isActive = ((ulong)reader["isActive"] == 1) ? true : false;
                         data.UpdatedBy = (string)reader["UpdatedBy"];
                         data.UpdatedDate = (DateTime)reader["UpdatedDate"];
                         res.Add(data);
                     }
                     reader.Close();
+                    connection.Close();
                     return res;
 
                 }

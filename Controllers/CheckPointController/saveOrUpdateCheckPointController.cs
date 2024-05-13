@@ -20,20 +20,21 @@ public class saveOrUpdateCheckPointController : ControllerBase
     public bool Post(CheckPoint input)
     {
         string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
-        string queryInsert = "INSERT INTO [dbo].[CheckPoint] (CheckPointID, CheckPointName, CheckPointDesc, CompanyID , isActive, UpdatedBy ,UpdatedDate) VALUES ('@ID', '@Name', '@Desc', '@ComID', 1, 'admin', GETDATE())";
-        string queryUpdate = "UPDATE [dbo].[CheckPoint] SET CheckPointName = '@Name', CheckPointDesc = '@Desc', CompanyID = '@ComID', isActive = @Active, UpdatedDate = GETDATE() WHERE CheckPointID = '@ID'";
+        string queryInsert = "INSERT INTO CheckPoint (CheckPointID, CheckPointName, CheckPointDesc, CompanyID , isActive, UpdatedBy ,UpdatedDate) VALUES ('@ID', '@Name', '@Desc', '@ComID', 1, 'admin', NOW())";
+        string queryUpdate = "UPDATE CheckPoint SET CheckPointName = '@Name', CheckPointDesc = '@Desc', CompanyID = '@ComID', isActive = @Active, UpdatedDate = NOW() WHERE CheckPointID = '@ID'";
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             if (input.CheckPointID == "0")
             {
-                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CheckPointID) + 1 AS VARCHAR) AS ID FROM [dbo].[CheckPoint]", connection);
+                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CheckPointID) + 1 AS CHAR) AS ID FROM CheckPoint", connection);
                 try
                 {
                     connection.Open();
                     MySqlDataReader reader = commandGetMaxID.ExecuteReader();
                     if (reader.Read())
                     {
-                        input.CheckPointID = (string)reader["ID"];
+                        var ID = ((string)reader["ID"] == null) ? "0" : reader["ID"].ToString();
+                        input.CheckPointID = ID;
                         reader.Close();
                     }
                 }
@@ -53,6 +54,7 @@ public class saveOrUpdateCheckPointController : ControllerBase
                 {
                     MySqlDataReader reader = command.ExecuteReader();
                     reader.Close();
+                    connection.Close();
                     return true;
                 }
                 catch (Exception ex)
@@ -75,6 +77,7 @@ public class saveOrUpdateCheckPointController : ControllerBase
                     connection.Open();
                     MySqlDataReader reader = command.ExecuteReader();
                     reader.Close();
+                    connection.Close();
                     return true;
                 }
                 catch (Exception ex)
