@@ -18,9 +18,8 @@ public class ExportSpotCheckController : ControllerBase
     [HttpGet(Name = "ExportSpotCheck/{spotID}")]
     public IActionResult ExportToExcel(string spotID)
     {
-        string query = @"select * from SpotCheck s left join Employee e on s.EmployeeID = e.EmployeeID left join [CheckPoint] c on s.CheckPointID = c.CheckPointID left join Company com on e.CompanyID = com.CompanyID where SpotID in (@ID)";
+        string query = @"select * from SpotCheck s left join Employee e on s.EmployeeID = e.EmployeeID left join CheckPoint c on s.CheckPointID = c.CheckPointID left join Company com on e.CompanyID = com.CompanyID where SpotID in (@ID)";
         string connectionString = @"server=b3tii4asmutgre5gyouk-mysql.services.clever-cloud.com;user=u2zqys3tn1mblv7m;database=b3tii4asmutgre5gyouk;port=3306;password=G6XH5FBjQWIES1QIuW9M";
-        string id = "";
 
         var result = new List<ExportSpot>();
 
@@ -43,7 +42,7 @@ public class ExportSpotCheckController : ControllerBase
 
                     string dateData = ((DateTime)reader["SpotCheckDate"]).ToString();
                     DateTime datePlace = DateTime.Parse(dateData);
-                    data.Date = datePlace.ToString("dd-MM-yyyy ");
+                    data.Date = datePlace.ToString("yyyy-MM-dd");
 
                     string timeData = ((DateTime)reader["SpotCheckDate"]).ToString();
                     DateTime timePlace = DateTime.Parse(timeData);
