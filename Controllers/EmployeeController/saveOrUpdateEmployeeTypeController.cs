@@ -26,7 +26,7 @@ public class saveOrUpdateEmployeeTypeController : ControllerBase
         {
             if (input.EmployeeTypeID == "0")
             {
-                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(EmpTypeID) + 1 AS CHAR) AS ID FROM EmployeeType", connection);
+                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CAST(EmpTypeID AS INT)) + 1 AS CHAR) AS ID FROM EmployeeType", connection);
                 try
                 {
                     connection.Open();

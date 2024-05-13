@@ -25,7 +25,7 @@ public class saveSpotCheckController : ControllerBase
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
 
-            MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(SpotID) + 1 AS CHAR) AS ID FROM SpotCheck", connection);
+            MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CAST(SpotID AS INT)) + 1 AS CHAR) AS ID FROM SpotCheck", connection);
             try
             {
                 connection.Open();

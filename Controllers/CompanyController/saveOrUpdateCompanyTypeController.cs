@@ -26,7 +26,7 @@ public class saveOrUpdateCompanyTypeController : ControllerBase
         {
             if (input.CompanyTypeID == "0")
             {
-                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CompanyTypeID) + 1 AS CHAR) AS ID FROM CompanyType", connection);
+                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX((CAST(CompanyTypeID AS INT)) + 1 AS CHAR) AS ID FROM CompanyType", connection);
                 try
                 {
                     connection.Open();

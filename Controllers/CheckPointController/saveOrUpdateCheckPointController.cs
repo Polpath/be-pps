@@ -26,7 +26,7 @@ public class saveOrUpdateCheckPointController : ControllerBase
         {
             if (input.CheckPointID == "0")
             {
-                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CheckPointID) + 1 AS CHAR) AS ID FROM CheckPoint", connection);
+                MySqlCommand commandGetMaxID = new MySqlCommand("SELECT CAST(MAX(CAST(CheckPointID AS INT)) + 1 AS CHAR) AS ID FROM CheckPoint", connection);
                 try
                 {
                     connection.Open();
