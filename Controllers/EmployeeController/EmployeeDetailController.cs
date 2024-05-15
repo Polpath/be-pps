@@ -37,7 +37,7 @@ public class EmployeeDetailController : ControllerBase
                     res.EmployeeCard = (string)reader["EmployeeCard"];
                     res.EmployeeTypeID = (string)reader["EmpTypeID"];
                     res.CompanyID = (string)reader["CompanyID"];
-                    res.isActive = (bool)reader["isActive"];
+                    res.isActive = ((ulong)reader["isActive"] == 1) ? true : false;
                 }
                 reader.Close();
                 return res;
